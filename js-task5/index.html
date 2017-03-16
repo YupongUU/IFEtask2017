@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        ul,
+        li {
+            list-style: none;
+        }
+        
+        ul {
+            width: auto;
+            height: 200px;
+            display: flex;
+            justify-content: space-around;
+            flex-flow: row nowrap;
+            align-items: flex-end;
+        }
+        
+        li {
+            float: left;
+            width: 20px;
+            line-height: 50px;
+            text-align: center;
+            border: 1px solid #999;
+            margin: 1px;
+            position: relative;
+            text-align: center;
+        }
+        
+        li p {
+            position: absolute;
+            bottom: -50px;
+        }
+        
+        button {
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="randomData">随机</button>
+    <button id="bubble-sort">冒泡排序</button>
+
+    <ul id="data-list">
+
+    </ul>
+    <script>
+        function $(id) {
+            return document.querySelector(id)
+        }
+
+        function init() {
+            $('#randomData').addEventListener('click', function () {
+                randomData()
+            })
+            $('#bubble-sort').addEventListener('click', function () {
+                bubbleSort();
+            })
+
+        }
+
+        function randomData() {
+            var ul = $('#data-list')
+            ul.innerHTML = ''
+            for (var i = 0; i < 60; i++) {
+                var num = Math.round(Math.random() * (100 - 10) + 10)
+                var li = document.createElement('li')
+                var p = document.createElement('p')
+                li.appendChild(p)
+                ul.appendChild(li)
+                p.innerHTML = num;
+                li.style.height = num + '%'
+                li.style.backgroundColor = 'red'
+            }
+            var lilist = document.getElementsByTagName('li')
+            var arr = []
+            for (var k = 0; k < lilist.length; k++) {
+                arr.push(lilist[k].children[0].innerHTML)
+            }
+            liList = document.getElementsByTagName('li')
+            key = liList.length;
+            console.log(arr)
+        }
+
+        // 冒泡排序
+        var liList;
+        var key
+        var j = 0;
+
+        function bubbleSort() {
+            function stepFn() {
+                var liList = document.getElementsByTagName('li')
+                var liTemp;
+                var pTemp;
+                if (liList[j].style.height > liList[j + 1].style.height) {
+                    liList[j].style.backgroundColor = 'green'
+                    liTemp = liList[j].style.height
+                    pTemp = liList[j].innerHTML
+                    liList[j].style.height = liList[j + 1].style.height
+                    liList[j].innerHTML = liList[j + 1].innerHTML
+                    liList[j + 1].style.height = liTemp;
+                    liList[j + 1].innerHTML = pTemp;
+                    liList[j].style.backgroundColor = 'red'
+                    liList[j + 1].style.backgroundColor = 'green'
+
+                } else {
+                    liList[j].style.backgroundColor = 'red'
+                    liList[j + 1].style.backgroundColor = 'green'
+                }
+                j++
+                if (j < key) {
+                    setTimeout(stepFn, 20)
+                }
+                if (key == 1) {
+                    var n = 0;
+                    var t = function () {
+                        liList[n].style.backgroundColor = 'red'
+                        n++;
+                        if (n <= liList.length - 1) {
+                            setTimeout(t, 50)
+                        }
+                    }
+                    t();
+                }
+                if (j == key - 1) {
+                    j = 0;
+                    key--
+                }
+                console.log('j' + j)
+                console.log('key' + key)
+            }
+            stepFn();
+
+        }
+      
+
+
+        init();
+    </script>
+</body>
+
+</html>

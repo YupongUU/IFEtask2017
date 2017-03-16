@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        ul,
+        li {
+            list-style: none;
+   
+        }
+        
+        ul {
+            width: auto;
+            height: 200px;
+            display: flex;
+            justify-content: space-around;
+            flex-flow: row nowrap;
+            align-items: flex-end;
+        }
+        
+        li {
+            float: left;
+            width: 20px;
+            line-height: 50px;
+            text-align: center;
+            border: 1px solid #999;
+            margin: 1px;
+            position: relative;
+            text-align: center;
+        }
+        li p{
+            position: absolute;
+            bottom: -50px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" name="" value="" id="input">
+    <button id="leftin">左侧入</button>
+    <button id="rightin">右侧入</button>
+    <button id="leftout">左侧出</button>
+    <button id="rightout">右侧出</button>
+    <button id="randomData">随机</button>
+    <ul id="data-list">
+
+    </ul>
+    <script>
+        // 有一个input输入框， 以及4个操作按钮
+
+        // 点击 "左侧入"，
+        // 将input中输入的数字从左侧插入队列中；
+        // 点击 "右侧入"，
+        // 将input中输入的数字从右侧插入队列中；
+        // 点击 "左侧出"，
+        // 读取并删除队列左侧第一个元素， 并弹窗显示元素中数值；
+        // 点击 "右侧出"，
+        // 读取并删除队列又侧第一个元素， 并弹窗显示元素中数值；
+        // 点击队列中任何一个元素， 则该元素会被从队列中删除
+
+        function getData(text) {
+            var nli = document.createElement('li')
+            var color = 'rgb(' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + Math.round(
+                Math.random() * 255) + ')'
+            console.log(color)
+            nli.style.height = text + '%';
+            nli.style.backgroundColor = color;
+            return nli;
+        }
+
+
+        var ul = $('#data-list')
+
+        function leftIn() {
+            var text = document.querySelector('#input').value;
+            if (text > 10 && text <= 100) {
+
+                ul.insertBefore(getData(text), ul.childNodes[0])
+            } else {
+                alert('请输入10-100')
+
+            }
+        }
+
+        function leftOut() {
+            ul.removeChild(ul.childNodes[0])
+        }
+
+        function rightIn() {
+            var text = document.querySelector('#input').value;
+            if (text > 10 && text <= 100) {
+
+                ul.appendChild(getData(text))
+            } else {
+                alert('请输入10-100')
+
+            }
+        }
+
+        function rightOut() {
+
+            ul.removeChild(ul.childNodes[ul.childNodes.length - 1])
+        }
+
+
+        function $(id) {
+            return document.querySelector(id)
+        }
+
+        function init() {
+            var lilist;
+
+            $("#leftin").addEventListener('click', function () {
+                if (check()) {
+                    alert('超过60！')
+                } else {
+
+                    leftIn()
+                }
+
+            })
+            $("#leftout").addEventListener('click', function () {
+
+                leftOut()
+            })
+            $("#rightin").addEventListener('click', function () {
+                if (check()) {
+                    alert('超过60！')
+                } else {
+
+                    rightIn()
+                }
+
+            })
+            $("#rightout").addEventListener('click', function () {
+                rightOut();
+            })
+            listClick()
+            $('#randomData').addEventListener('click', function () {
+                randomData()
+            })
+        }
+
+        function check() {
+            console.log(ul.children.length)
+            return ul.children.length < '60' ? false : true;
+        }
+
+        function listClick() {
+            var li = document.getElementsByTagName('li')
+
+
+            ul.addEventListener('click', function (e) {
+
+                if (e.target.tagName === 'LI') {
+
+                    ul.removeChild(e.target)
+
+                }
+
+            }, false)
+        }
+
+
+        function randomData() {
+            for (var i = 0; i < 60; i++) {
+                var num = Math.round(Math.random() * (100 - 10) + 10)
+                var li = document.createElement('li')
+                var p = document.createElement('p')
+                li.appendChild(p)
+                ul.appendChild(li)
+                p.innerHTML = i;
+                li.style.height = num + '%'
+                li.style.backgroundColor = 'red'
+            }
+        }
+
+
+        init();
+    </script>
+</body>
+
+</html>
